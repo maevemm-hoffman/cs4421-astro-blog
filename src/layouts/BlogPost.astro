@@ -10,7 +10,7 @@ import Header from '../components/Header.astro';
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage, author: authorId } = Astro.props;
-const author = authorId ? await getEntry(authorId) : undefined;
+const author = authorId ? await getEntry('authors', authorId) : undefined;
 ---
 
 <html lang="en">

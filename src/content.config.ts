@@ -1,4 +1,4 @@
-import { defineCollection, reference } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
@@ -14,7 +14,7 @@ const blog = defineCollection({
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
 			heroImage: z.optional(image()),
-			author: reference('authors').optional(),
+			author: z.reference('authors').optional(),
 		}),
 });
 
@@ -25,9 +25,9 @@ const authors = defineCollection({
 			name: z.string(),
 			bio: z.string(),
 			avatar: image(),
-			github: z.url().optional(),
-			linkedin: z.url().optional(),
-			website: z.url().optional(),
+			github: z.string().url().optional(),
+			linkedin: z.string().url().optional(),
+			website: z.string().url().optional(),
 		}),
 });
 
