@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+type Props = {
+	author: CollectionEntry<'authors'>;
+};
+
+const { author } = Astro.props;
+const { name, bio, avatar, github, linkedin, website } = author.data;
+---
+
+<section class="author-bio" aria-labelledby="author-heading">
+	<Image class="avatar" src={avatar} width={96} height={96} alt={`${name} avatar`} />
+	<div class="author-details">
+		<p class="eyebrow">About the author</p>
+		<h2 id="author-heading">{name}</h2>
+		<p>{bio}</p>
+		<nav class="social-links" aria-label={`${name}'s social links`}>
+			{github && <a href={github} target="_blank" rel="noreferrer">GitHub</a>}
+			{linkedin && <a href={linkedin} target="_blank" rel="noreferrer">LinkedIn</a>}
+			{website && <a href={website} target="_blank" rel="noreferrer">Website</a>}
+		</nav>
+	</div>
+</section>
+
+<style>
+	.author-bio {
+		display: flex;
+		gap: 1.25rem;
+		align-items: flex-start;
+		margin-top: 3rem;
+		padding-top: 2rem;
+		border-top: 1px solid rgb(var(--gray-light));
+	}
+	.avatar {
+		flex: 0 0 auto;
+		width: 96px;
+		height: 96px;
+		object-fit: cover;
+		border-radius: 50%;
+	}
+	.author-details {
+		flex: 1;
+	}
+	.eyebrow {
+		margin: 0;
+		color: rgb(var(--gray));
+		font-size: 0.75em;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+	h2 {
+		margin: 0.15rem 0 0.5rem;
+		font-size: 1.5em;
+	}
+	.author-details p {
+		margin: 0 0 0.75rem;
+	}
+	.social-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem 1rem;
+	}
+	.social-links a {
+		font-size: 0.9em;
+	}
+	@media (max-width: 480px) {
+		.author-bio {
+			gap: 1rem;
+		}
+		.avatar {
+			width: 72px;
+			height: 72px;
+		}
+	}
+</style>
