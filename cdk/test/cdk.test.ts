@@ -1,24 +1,14 @@
 import * as cdk from 'aws-cdk-lib';
-import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
-import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
-import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
-export class StaticSiteStack extends cdk.Stack {
-constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
-super(scope, id, props);
-const siteBucket = new s3.Bucket(this, 'SiteBucket', {
-removalPolicy: cdk.RemovalPolicy.DESTROY,
-autoDeleteObjects: true,
+import { Template } from 'aws-cdk-lib/assertions';
+import { StaticSiteStack } from '../lib/cdk-stack';
+
+test('creates S3 bucket and CloudFront distribution', () => {
+  const app = new cdk.App();
+  const stack = new StaticSiteStack(app, 'TestStaticSiteStack');
+
+  const template = Template.fromStack(stack);
+
+  template.resourceCountIs('AWS::S3::Bucket', 1);
+  template.resourceCountIs('AWS::CloudFront::Distribution', 1);
+  template.resourceCountIs('Custom::CDKBucketDeployment', 1);
 });
-const distribution = new cloudfront.Distribution(this, 'SiteDistribution', {
-defaultBehavior: { origin: origins.S3BucketOrigin.withOriginAccessControl(siteBucket) },
-defaultRootObject: 'index.html',
-});
-new s3deploy.BucketDeployment(this, 'DeploySite', {
-sources: [s3deploy.Source.asset('./dist')],
-destinationBucket: siteBucket,
-distribution,
-distributionPaths: ['/*'], // Automatic CloudFront CDN cache invalidation!
-});
-}
-}
