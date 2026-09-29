@@ -16,11 +16,13 @@ const { name, bio, avatar, github, linkedin, website } = author.data;
 		<p class="eyebrow">About the author</p>
 		<h2 id="author-heading">{name}</h2>
 		<p>{bio}</p>
-		<nav class="social-links" aria-label={`${name}'s social links`}>
-			{github && <a href={github} target="_blank" rel="noreferrer">GitHub</a>}
-			{linkedin && <a href={linkedin} target="_blank" rel="noreferrer">LinkedIn</a>}
-			{website && <a href={website} target="_blank" rel="noreferrer">Website</a>}
-		</nav>
+		{(github || linkedin || website) && (
+			<nav class="social-links" aria-label={`${name}'s social links`}>
+				{github && <a href={github} target="_blank" rel="noreferrer">GitHub</a>}
+				{linkedin && <a href={linkedin} target="_blank" rel="noreferrer">LinkedIn</a>}
+				{website && <a href={website} target="_blank" rel="noreferrer">Website</a>}
+			</nav>
+		)}
 	</div>
 </section>
 
@@ -31,7 +33,7 @@ const { name, bio, avatar, github, linkedin, website } = author.data;
 		align-items: flex-start;
 		margin-top: 3rem;
 		padding-top: 2rem;
-		border-top: 1px solid rgb(var(--gray-light));
+		border-top: 1px solid var(--line);
 	}
 	.avatar {
 		flex: 0 0 auto;
@@ -45,7 +47,7 @@ const { name, bio, avatar, github, linkedin, website } = author.data;
 	}
 	.eyebrow {
 		margin: 0;
-		color: rgb(var(--gray));
+		color: var(--brass);
 		font-size: 0.75em;
 		font-weight: 700;
 		letter-spacing: 0.08em;
@@ -54,6 +56,7 @@ const { name, bio, avatar, github, linkedin, website } = author.data;
 	h2 {
 		margin: 0.15rem 0 0.5rem;
 		font-size: 1.5em;
+		font-family: var(--font-display);
 	}
 	.author-details p {
 		margin: 0 0 0.75rem;

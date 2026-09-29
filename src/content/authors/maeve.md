@@ -1,8 +1,5 @@
 ---
 name: 'Maeve'
-bio: 'Maeve writes about building thoughtful software, developer tools, and the ideas that make technology easier to understand.'
+bio: 'Maeve keeps fieldnotes on Middle-earth: its quiet roads, wild places, and the small kindnesses found along the way.'
 avatar: '../../assets/blog-placeholder-about.jpg'
-github: 'https://github.com/withastro/astro'
-linkedin: 'https://www.linkedin.com/'
-website: 'https://astro.build/'
 ---
