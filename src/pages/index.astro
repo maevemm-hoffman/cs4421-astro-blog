@@ -46,16 +46,54 @@ const [featured, ...dispatches] = posts;
 						</a>
 					)}
 				</div>
-				<aside class="route-map" aria-label="A route east from the Shire to the Lonely Mountain">
+				<aside class="route-map" data-route-map aria-label="A route east from the Shire to the Lonely Mountain">
 					<p class="map-heading">The long road east</p>
+					<svg class="map-route" viewBox="0 0 326 360" aria-hidden="true">
+						<path d="M 51 260 L 143 211 L 71 151 L 184 118 L 151 64" />
+					</svg>
 					<ol class="map-stops">
-						<li class="stop-shire"><span class="map-point"></span><span>The Shire</span></li>
-						<li class="stop-bree"><span class="map-point"></span><span>Bree</span></li>
-						<li class="stop-rivendell"><span class="map-point"></span><span>Rivendell</span></li>
-						<li class="stop-mirkwood"><span class="map-point"></span><span>Mirkwood</span></li>
-						<li class="stop-mountain"><span class="map-point"></span><span>The Lonely Mountain</span></li>
+						<li class="stop-shire">
+							<button class="map-stop" type="button" aria-pressed="true" aria-controls="map-stop-details"
+								data-title="The Shire"
+								data-description="A quiet beginning among green hills, pantry cupboards, and familiar lanes.">
+								<span class="map-point" aria-hidden="true"></span><span>The Shire</span>
+							</button>
+						</li>
+						<li class="stop-bree">
+							<button class="map-stop" type="button" aria-pressed="false" aria-controls="map-stop-details"
+								data-title="Bree"
+								data-description="The road meets the East Road at an inn where travelers trade news.">
+								<span class="map-point" aria-hidden="true"></span><span>Bree</span>
+							</button>
+						</li>
+						<li class="stop-rivendell">
+							<button class="map-stop" type="button" aria-pressed="false" aria-controls="map-stop-details"
+								data-title="Rivendell"
+								data-description="A sheltered house beneath the mountains, and a welcome rest for weary feet.">
+								<span class="map-point" aria-hidden="true"></span><span>Rivendell</span>
+							</button>
+						</li>
+						<li class="stop-mirkwood">
+							<button class="map-stop" type="button" aria-pressed="false" aria-controls="map-stop-details"
+								data-title="Mirkwood"
+								data-description="A shadowed woodland where the path is easy to lose and courage matters.">
+								<span class="map-point" aria-hidden="true"></span><span>Mirkwood</span>
+							</button>
+						</li>
+						<li class="stop-mountain">
+							<button class="map-stop" type="button" aria-pressed="false" aria-controls="map-stop-details"
+								data-title="The Lonely Mountain"
+								data-description="A far-eastern landmark beyond forest and plain, reached only after a long road.">
+								<span class="map-point" aria-hidden="true"></span><span>The Lonely Mountain</span>
+							</button>
+						</li>
 					</ol>
-					<p class="map-date">A traveler's chart<br />Third Age, 3019</p>
+					<div class="map-stop-details" id="map-stop-details" aria-live="polite" aria-atomic="true">
+						<h2 class="map-stop-title">The Shire</h2>
+						<p class="map-stop-description">
+							A quiet beginning among green hills, pantry cupboards, and familiar lanes.
+						</p>
+					</div>
 					<span class="map-compass" aria-hidden="true">N</span>
 				</aside>
 				<p class="image-note">Beyond the green door and over the mountains</p>
@@ -91,6 +129,30 @@ const [featured, ...dispatches] = posts;
 		<Footer />
 	</body>
 </html>
+
+<script>
+	const routeMap = document.querySelector<HTMLElement>('[data-route-map]');
+	const stopTitle = routeMap?.querySelector<HTMLElement>('.map-stop-title');
+	const stopDescription = routeMap?.querySelector<HTMLElement>('.map-stop-description');
+
+	if (routeMap && stopTitle && stopDescription) {
+		const stops = routeMap.querySelectorAll<HTMLButtonElement>('.map-stop');
+
+		stops.forEach((stop) => {
+			stop.addEventListener('click', () => {
+				const title = stop.dataset.title;
+				const description = stop.dataset.description;
+				if (!title || !description) return;
+
+				stops.forEach((waypoint) => {
+					waypoint.setAttribute('aria-pressed', String(waypoint === stop));
+				});
+				stopTitle.textContent = title;
+				stopDescription.textContent = description;
+			});
+		});
+	}
+</script>
 
 <style>
 	.home-page {
@@ -202,15 +264,51 @@ const [featured, ...dispatches] = posts;
 	}
 	.map-stops li {
 		position: absolute;
-		display: flex;
+		z-index: 2;
+	}
+	.map-stop {
+		display: inline-flex;
 		align-items: center;
 		gap: 8px;
-		font-size: 12px;
-		font-style: italic;
+		padding: 4px 5px;
+		border: 0;
+		border-radius: 3px;
+		background: rgba(28, 45, 34, 0.78);
+		color: #f0e1bc;
+		font: italic 12px/1.2 var(--font-display);
+		text-align: left;
 		white-space: nowrap;
+		cursor: pointer;
+		transition: color 160ms ease, background-color 160ms ease;
+	}
+	.map-stop:hover,
+	.map-stop[aria-pressed='true'] {
+		background: rgba(216, 174, 100, 0.22);
+		color: #ffe6a8;
+	}
+	.map-stop:focus-visible {
+		outline: 2px solid #ffe6a8;
+		outline-offset: 3px;
+	}
+	.map-route {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		width: 100%;
+		height: 100%;
+		overflow: visible;
+		pointer-events: none;
+	}
+	.map-route path {
+		fill: none;
+		stroke: rgba(239, 214, 157, 0.72);
+		stroke-dasharray: 3 5;
+		stroke-linecap: round;
+		stroke-width: 1.5;
 	}
 	.map-point {
 		width: 7px;
+		flex: 0 0 7px;
 		aspect-ratio: 1;
 		border: 1px solid #f1d392;
 		border-radius: 50%;
@@ -222,18 +320,25 @@ const [featured, ...dispatches] = posts;
 	.stop-rivendell { left: 20%; top: 40%; }
 	.stop-mirkwood { left: 55%; top: 31%; }
 	.stop-mountain { left: 45%; top: 16%; }
-	.map-date {
+	.map-stop-details {
 		position: absolute;
-		right: 28px;
-		bottom: 22px;
+		right: 25px;
+		bottom: 17px;
+		left: 27px;
 		z-index: 1;
+		padding-top: 9px;
+		border-top: 1px solid rgba(239, 214, 157, 0.38);
+	}
+	.map-stop-title {
+		margin: 0 0 3px;
+		color: #edcf8b;
+		font-size: 14px;
+		line-height: 1.2;
+	}
+	.map-stop-description {
 		margin: 0;
-		color: rgba(240, 225, 188, 0.8);
-		font-size: 10px;
-		line-height: 1.45;
-		text-align: right;
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
+		color: rgba(240, 225, 188, 0.9);
+		font: 11px/1.35 var(--font-body);
 	}
 	.map-compass {
 		position: absolute;
@@ -369,12 +474,35 @@ const [featured, ...dispatches] = posts;
 		from { opacity: 0; transform: translateY(12px); }
 		to { opacity: 1; transform: translateY(0); }
 	}
+	@media (prefers-reduced-motion: reduce) {
+		.masthead-image,
+		.masthead-copy,
+		.dispatch-card {
+			animation: none;
+		}
+		.map-stop,
+		.dispatch-image img {
+			transition: none;
+		}
+	}
 	@media (max-width: 960px) {
 		.masthead {
+			flex-direction: column;
+			align-items: stretch;
 			min-height: 485px;
+			padding-bottom: 34px;
 		}
 		.route-map {
-			display: none;
+			position: relative;
+			top: auto;
+			right: auto;
+			align-self: center;
+			width: min(326px, calc(100% - 36px));
+			margin: 0 auto;
+			transform: none;
+		}
+		.masthead-copy {
+			padding-bottom: 26px;
 		}
 		.masthead-copy,
 		.dispatches {
@@ -396,11 +524,18 @@ const [featured, ...dispatches] = posts;
 	}
 	@media (max-width: 520px) {
 		.masthead {
-			min-height: 450px;
+			min-height: 0;
+			padding-bottom: 28px;
 		}
 		.masthead-copy,
 		.dispatches {
 			width: calc(100% - 32px);
+		}
+		.masthead-copy {
+			padding-top: 58px;
+		}
+		.route-map {
+			height: 340px;
 		}
 		.masthead h1 {
 			font-size: 39px;
