@@ -1,8 +1,16 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const [featured, ...dispatches] = posts;
 ---
 
 <!doctype html>
@@ -12,38 +20,410 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	</head>
 	<body>
 		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+		<main class="home-page">
+			<section class="masthead" aria-labelledby="home-title">
+				{featured?.data.heroImage && (
+					<Image
+						class="masthead-image"
+						src={featured.data.heroImage}
+						alt=""
+						width={1800}
+						height={1000}
+						loading="eager"
+					/>
+				)}
+				<div class="masthead-shade" aria-hidden="true"></div>
+				<div class="masthead-copy">
+					<p class="eyebrow">A hobbit's account of the wide world</p>
+					<h1 id="home-title">Fieldnotes from<br />Middle-earth</h1>
+					<p class="intro">
+						From a second breakfast in the Shire to the shadowed eaves of Mirkwood: notes from the
+						roads, halls, and unexpected hearths of a world full of old tales.
+					</p>
+					{featured && (
+						<a class="feature-link" href={`/blog/${featured.id}/`}>
+							Read the latest dispatch <span aria-hidden="true">-&gt;</span>
+						</a>
+					)}
+				</div>
+				<aside class="route-map" aria-label="A route east from the Shire to the Lonely Mountain">
+					<p class="map-heading">The long road east</p>
+					<ol class="map-stops">
+						<li class="stop-shire"><span class="map-point"></span><span>The Shire</span></li>
+						<li class="stop-bree"><span class="map-point"></span><span>Bree</span></li>
+						<li class="stop-rivendell"><span class="map-point"></span><span>Rivendell</span></li>
+						<li class="stop-mirkwood"><span class="map-point"></span><span>Mirkwood</span></li>
+						<li class="stop-mountain"><span class="map-point"></span><span>The Lonely Mountain</span></li>
+					</ol>
+					<p class="map-date">A traveler's chart<br />Third Age, 3019</p>
+					<span class="map-compass" aria-hidden="true">N</span>
+				</aside>
+				<p class="image-note">Beyond the green door and over the mountains</p>
+			</section>
+
+			<section class="dispatches" id="journal" aria-labelledby="dispatches-title">
+				<div class="section-heading">
+					<div>
+						<p class="eyebrow">By firelight &amp; moonrise</p>
+						<h2 id="dispatches-title">Tales from the road</h2>
+					</div>
+					<a class="archive-link" href="/blog">All entries <span aria-hidden="true">-&gt;</span></a>
+				</div>
+				<div class="dispatch-grid">
+					{dispatches.slice(0, 3).map((post, index) => (
+						<article class:list={['dispatch-card', `dispatch-card-${index + 1}`]}>
+							<a class="dispatch-image" href={`/blog/${post.id}/`} aria-label={`Read ${post.data.title}`}>
+								{post.data.heroImage && (
+									<Image src={post.data.heroImage} alt="" width={700} height={460} />
+								)}
+							</a>
+							<div class="dispatch-copy">
+								<p class="dispatch-date"><FormattedDate date={post.data.pubDate} /></p>
+								<h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3>
+								<p>{post.data.description}</p>
+								<a class="read-link" href={`/blog/${post.id}/`}>Read entry <span aria-hidden="true">-&gt;</span></a>
+							</div>
+						</article>
+					))}
+				</div>
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.home-page {
+		width: 100%;
+		padding: 0;
+	}
+	.masthead {
+		position: relative;
+		isolation: isolate;
+		min-height: 560px;
+		display: flex;
+		align-items: center;
+		overflow: hidden;
+		background: #1b3026;
+		color: var(--paper-light);
+	}
+	.masthead-image,
+	.masthead-shade {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+	.masthead-image {
+		z-index: -2;
+		object-fit: cover;
+		object-position: center 54%;
+		animation: arrive 900ms ease-out both;
+	}
+	.masthead-shade {
+		z-index: -1;
+		background: linear-gradient(90deg, rgba(13, 28, 22, 0.94) 0%, rgba(18, 35, 26, 0.78) 44%, rgba(22, 36, 27, 0.24) 100%);
+	}
+	.masthead-copy {
+		width: min(1160px, calc(100% - 48px));
+		margin: 0 auto;
+		padding: 72px 0 88px;
+		animation: appear 700ms 120ms ease-out both;
+	}
+	.eyebrow {
+		margin: 0 0 15px;
+		color: var(--brass);
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+	}
+	.masthead .eyebrow {
+		color: #d8b779;
+	}
+	.masthead h1 {
+		max-width: 620px;
+		margin: 0;
+		color: var(--paper-light);
+		font-size: 58px;
+		line-height: 1.02;
+	}
+	.intro {
+		max-width: 460px;
+		margin: 22px 0 26px;
+		color: rgba(250, 247, 239, 0.88);
+		font-size: 17px;
+		line-height: 1.65;
+	}
+	.route-map {
+		position: absolute;
+		top: 50%;
+		right: max(52px, calc((100vw - 1160px) / 2));
+		width: 326px;
+		height: 360px;
+		transform: translateY(-48%) rotate(2deg);
+		border: 1px solid rgba(239, 214, 157, 0.58);
+		border-radius: 48% 42% 47% 45%;
+		background: rgba(28, 45, 34, 0.24);
+		color: #f0e1bc;
+		font-family: var(--font-display);
+		box-shadow: inset 0 0 0 7px rgba(239, 214, 157, 0.08);
+	}
+	.route-map::before,
+	.route-map::after {
+		position: absolute;
+		inset: 16px;
+		border: 1px dashed rgba(239, 214, 157, 0.3);
+		border-radius: 48% 42% 47% 45%;
+		content: '';
+	}
+	.route-map::after {
+		inset: 28px;
+		transform: rotate(-12deg);
+		opacity: 0.65;
+	}
+	.map-heading {
+		position: absolute;
+		top: 19px;
+		left: 27px;
+		z-index: 1;
+		margin: 0;
+		color: #edcf8b;
+		font-size: 15px;
+		font-style: italic;
+	}
+	.map-stops {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.map-stops li {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 12px;
+		font-style: italic;
+		white-space: nowrap;
+	}
+	.map-point {
+		width: 7px;
+		aspect-ratio: 1;
+		border: 1px solid #f1d392;
+		border-radius: 50%;
+		background: #d8ae64;
+		box-shadow: 0 0 10px rgba(241, 211, 146, 0.6);
+	}
+	.stop-shire { left: 14%; top: 71%; }
+	.stop-bree { left: 42%; top: 57%; }
+	.stop-rivendell { left: 20%; top: 40%; }
+	.stop-mirkwood { left: 55%; top: 31%; }
+	.stop-mountain { left: 45%; top: 16%; }
+	.map-date {
+		position: absolute;
+		right: 28px;
+		bottom: 22px;
+		z-index: 1;
+		margin: 0;
+		color: rgba(240, 225, 188, 0.8);
+		font-size: 10px;
+		line-height: 1.45;
+		text-align: right;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+	.map-compass {
+		position: absolute;
+		top: 22px;
+		right: 26px;
+		z-index: 1;
+		width: 25px;
+		aspect-ratio: 1;
+		display: grid;
+		place-items: center;
+		border: 1px solid rgba(239, 214, 157, 0.62);
+		border-radius: 50%;
+		color: #edcf8b;
+		font: 10px/1 var(--font-body);
+	}
+	.feature-link,
+	.archive-link,
+	.read-link {
+		font-size: 13px;
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.feature-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 12px;
+		padding: 11px 0;
+		border-bottom: 1px solid #d8b779;
+		color: #f3d39a;
+	}
+	.feature-link:hover {
+		color: white;
+	}
+	.image-note {
+		position: absolute;
+		right: 24px;
+		bottom: 14px;
+		margin: 0;
+		color: rgba(250, 247, 239, 0.75);
+		font: italic 13px var(--font-display);
+	}
+	.dispatches {
+		width: min(1160px, calc(100% - 48px));
+		margin: 0 auto;
+		padding: 53px 0 82px;
+	}
+	.section-heading {
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		gap: 20px;
+		margin-bottom: 26px;
+		padding-bottom: 17px;
+		border-bottom: 1px solid var(--line);
+	}
+	.section-heading .eyebrow {
+		margin-bottom: 6px;
+	}
+	.section-heading h2 {
+		margin: 0;
+		font-size: 32px;
+	}
+	.archive-link {
+		padding-bottom: 5px;
+		color: var(--forest);
+		white-space: nowrap;
+	}
+	.dispatch-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 30px;
+	}
+	.dispatch-card {
+		min-width: 0;
+		animation: appear 650ms ease-out both;
+	}
+	.dispatch-card-2 {
+		animation-delay: 100ms;
+	}
+	.dispatch-card-3 {
+		animation-delay: 200ms;
+	}
+	.dispatch-image {
+		display: block;
+		aspect-ratio: 1.55;
+		overflow: hidden;
+		background: var(--paper-deep);
+	}
+	.dispatch-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 350ms ease;
+	}
+	.dispatch-image:hover img {
+		transform: scale(1.035);
+	}
+	.dispatch-copy {
+		padding: 14px 0 0;
+	}
+	.dispatch-date {
+		margin: 0 0 5px;
+		color: var(--muted);
+		font-size: 11px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+	.dispatch-copy h3 {
+		margin: 0 0 7px;
+		font-size: 23px;
+	}
+	.dispatch-copy h3 a {
+		color: var(--ink);
+		text-decoration: none;
+	}
+	.dispatch-copy h3 a:hover {
+		color: var(--clay);
+	}
+	.dispatch-copy > p:not(.dispatch-date) {
+		margin: 0 0 12px;
+		color: var(--ink-soft);
+		font-size: 14px;
+		line-height: 1.6;
+	}
+	.read-link {
+		color: var(--forest);
+	}
+	@keyframes arrive {
+		from { transform: scale(1.025); }
+		to { transform: scale(1); }
+	}
+	@keyframes appear {
+		from { opacity: 0; transform: translateY(12px); }
+		to { opacity: 1; transform: translateY(0); }
+	}
+	@media (max-width: 960px) {
+		.masthead {
+			min-height: 485px;
+		}
+		.route-map {
+			display: none;
+		}
+		.masthead-copy,
+		.dispatches {
+			width: calc(100% - 36px);
+		}
+		.masthead-shade {
+			background: linear-gradient(90deg, rgba(13, 28, 22, 0.94), rgba(24, 39, 29, 0.44));
+		}
+		.masthead h1 {
+			font-size: 46px;
+		}
+		.dispatch-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 28px 20px;
+		}
+		.dispatch-card:last-child {
+			display: none;
+		}
+	}
+	@media (max-width: 520px) {
+		.masthead {
+			min-height: 450px;
+		}
+		.masthead-copy,
+		.dispatches {
+			width: calc(100% - 32px);
+		}
+		.masthead h1 {
+			font-size: 39px;
+		}
+		.intro {
+			max-width: 360px;
+			font-size: 15px;
+		}
+		.image-note {
+			right: 16px;
+			font-size: 11px;
+		}
+		.dispatches {
+			padding: 38px 0 56px;
+		}
+		.section-heading h2 {
+			font-size: 27px;
+		}
+		.dispatch-grid {
+			grid-template-columns: 1fr;
+		}
+		.dispatch-card:last-child {
+			display: block;
+		}
+	}
+</style>

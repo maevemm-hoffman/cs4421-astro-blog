@@ -1,12 +1,12 @@
 ---
-title: 'Markdown Style Guide'
-description: 'Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.'
+title: 'A Scribe’s Guide to Markdown'
+description: 'A field guide to the headings, lists, notes, and tables that keep a travel journal readable.'
 pubDate: 'Jun 19 2024'
 heroImage: '../../assets/blog-placeholder-1.jpg'
 author: 'maeve'
 ---
 
-Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.
+Every good archive needs a steady hand and a legible page. This guide gathers the Markdown marks used throughout the journal, from section headings to quoted words and map-like tables.
 
 ## Headings
 
@@ -26,9 +26,9 @@ The following HTML `<h1>`—`<h6>` elements represent six levels of section head
 
 ## Paragraph
 
-Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea ipsamus es exerum sitate dolores editium rerore eost, temped molorro ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.
+The road beyond the village climbed between old hedges. Rain had darkened the stones, and a thin ribbon of smoke rose from a cottage far below. I marked the turn on my map before the hill hid it from view.
 
-Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.
+At the next mile-stone, the path divided. I chose the track beside the stream and left a note for whoever followed.
 
 ## Images
 
