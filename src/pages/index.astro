@@ -110,7 +110,11 @@ const [featured, ...dispatches] = posts;
 				<div class="dispatch-grid">
 					{dispatches.slice(0, 3).map((post, index) => (
 						<article class:list={['dispatch-card', `dispatch-card-${index + 1}`]}>
-							<a class="dispatch-image" href={`/blog/${post.id}/`} aria-label={`Read ${post.data.title}`}>
+							<a
+								class="dispatch-image"
+								href={`/blog/${post.id}/`}
+								aria-label={`Read ${post.data.title}`}
+							>
 								{post.data.heroImage && (
 									<Image src={post.data.heroImage} alt="" width={700} height={460} />
 								)}
@@ -425,16 +429,20 @@ const [featured, ...dispatches] = posts;
 		display: block;
 		aspect-ratio: 1.55;
 		overflow: hidden;
-		background: var(--paper-deep);
+		border: 1px solid rgba(164, 119, 63, 0.35);
+		border-radius: 5px;
+		background: linear-gradient(145deg, var(--forest), #18291f);
+		box-shadow: 0 10px 24px rgba(32, 45, 39, 0.13);
 	}
 	.dispatch-image img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transition: transform 350ms ease;
+		transition: transform 350ms ease, filter 350ms ease;
 	}
 	.dispatch-image:hover img {
 		transform: scale(1.035);
+		filter: saturate(1.08);
 	}
 	.dispatch-copy {
 		padding: 14px 0 0;

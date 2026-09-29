@@ -63,6 +63,15 @@ p {
 .prose p {
 	margin: 0 0 1.5em;
 }
+.prose img {
+	display: block;
+	margin: 2em auto;
+	padding: 7px;
+	border: 1px solid rgba(164, 119, 63, 0.35);
+	border-radius: 4px;
+	background: var(--paper-light);
+	box-shadow: 0 14px 32px rgba(32, 45, 39, 0.16);
+}
 textarea {
 	width: 100%;
 	font-size: 16px;
