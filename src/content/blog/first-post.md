@@ -2,7 +2,7 @@
 title: 'A Slow Morning in the Shire'
 description: 'A quiet walk through green lanes, kitchen gardens, and the unhurried comforts of home.'
 pubDate: 'Sep 29 2026'
-heroImage: '../../assets/blog-placeholder-3.jpg'
+heroImage: '../../assets/shire-walk.webp'
 author: 'maeve'
 ---
 
