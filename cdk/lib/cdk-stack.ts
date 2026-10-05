@@ -15,10 +15,36 @@ export class StaticSiteStack extends cdk.Stack {
       enforceSSL: true,
     });
 
+    const rewriteDirectoryUrls = new cloudfront.Function(this, 'RewriteDirectoryUrls', {
+      code: cloudfront.FunctionCode.fromInline(`
+      function handler(event) {
+        var request = event.request;
+        var uri = request.uri;
+
+        if (uri.charAt(uri.length - 1) === '/') {
+          request.uri = uri + 'index.html';
+        } else {
+          var lastSegment = uri.substring(uri.lastIndexOf('/') + 1);
+          if (lastSegment.indexOf('.') === -1) {
+            request.uri = uri + '/index.html';
+          }
+        }
+
+        return request;
+      }
+            `),
+          });
+
     const distribution = new cloudfront.Distribution(this, 'SiteDistribution', {
       defaultBehavior: {
         origin: origins.S3BucketOrigin.withOriginAccessControl(siteBucket),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        functionAssociations: [
+          {
+            function: rewriteDirectoryUrls,
+            eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
+          },
+        ],
       },
       defaultRootObject: 'index.html',
       enableLogging: false,

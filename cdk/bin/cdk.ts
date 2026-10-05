@@ -5,4 +5,5 @@ import { StaticSiteStack } from '../lib/cdk-stack';
 const app = new cdk.App();
 new StaticSiteStack(app, 'StaticSiteStack', {
   env: { account: '951603962608', region: 'us-east-1' },
+  synthesizer: new cdk.CliCredentialsStackSynthesizer(),
 });
