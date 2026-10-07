@@ -7,6 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: npm
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v5
