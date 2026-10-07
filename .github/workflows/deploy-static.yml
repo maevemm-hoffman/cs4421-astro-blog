@@ -18,13 +18,13 @@ jobs:
           cache: 'npm'
 
       - name: Install Project & CDK Dependencies
-        run: npm.cmd ci
+        run: npm ci
 
       - name: Build Astro Static Site
-        run: npm.cmd run build
+        run: npm run build
       
       - name: Change to CDK folder
-        run: cd cdk && npm.cmd ci
+        run: cd cdk && npm ci
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
