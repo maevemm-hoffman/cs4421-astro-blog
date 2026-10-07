@@ -3,14 +3,26 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-import { Image } from 'astro:assets';
+import { getImage, Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import shireImage from '../assets/the_shire.jpg';
+import breeImage from '../assets/bree.webp';
+import rivendellImage from '../assets/rivendell.jpg';
+import mirkwoodImage from '../assets/mirkwood.webp';
+import mountainImage from '../assets/the_lonely_mountain.jpg';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 const [featured, ...dispatches] = posts;
+const locationImages = {
+	shire: await getImage({ src: shireImage, width: 1800 }),
+	bree: await getImage({ src: breeImage, width: 1800 }),
+	rivendell: await getImage({ src: rivendellImage, width: 1800 }),
+	mirkwood: await getImage({ src: mirkwoodImage, width: 1800 }),
+	mountain: await getImage({ src: mountainImage, width: 1800 }),
+};
 ---
 
 <!doctype html>
@@ -22,16 +34,13 @@ const [featured, ...dispatches] = posts;
 		<Header />
 		<main class="home-page">
 			<section class="masthead" aria-labelledby="home-title">
-				{featured?.data.heroImage && (
-					<Image
-						class="masthead-image"
-						src={featured.data.heroImage}
-						alt=""
-						width={1800}
-						height={1000}
-						loading="eager"
-					/>
-				)}
+				<img
+					class="masthead-image"
+					data-masthead-image
+					src={locationImages.shire.src}
+					alt=""
+					loading="eager"
+				/>
 				<div class="masthead-shade" aria-hidden="true"></div>
 				<div class="masthead-copy">
 					<p class="eyebrow">A hobbit's account of the wide world</p>
@@ -55,6 +64,7 @@ const [featured, ...dispatches] = posts;
 						<li class="stop-shire">
 							<button class="map-stop" type="button" aria-pressed="true" aria-controls="map-stop-details"
 								data-title="The Shire"
+								data-image={locationImages.shire.src}
 								data-description="A quiet beginning among green hills, pantry cupboards, and familiar lanes.">
 								<span class="map-point" aria-hidden="true"></span><span>The Shire</span>
 							</button>
@@ -62,6 +72,7 @@ const [featured, ...dispatches] = posts;
 						<li class="stop-bree">
 							<button class="map-stop" type="button" aria-pressed="false" aria-controls="map-stop-details"
 								data-title="Bree"
+								data-image={locationImages.bree.src}
 								data-description="The road meets the East Road at an inn where travelers trade news.">
 								<span class="map-point" aria-hidden="true"></span><span>Bree</span>
 							</button>
@@ -69,6 +80,7 @@ const [featured, ...dispatches] = posts;
 						<li class="stop-rivendell">
 							<button class="map-stop" type="button" aria-pressed="false" aria-controls="map-stop-details"
 								data-title="Rivendell"
+								data-image={locationImages.rivendell.src}
 								data-description="A sheltered house beneath the mountains, and a welcome rest for weary feet.">
 								<span class="map-point" aria-hidden="true"></span><span>Rivendell</span>
 							</button>
@@ -76,6 +88,7 @@ const [featured, ...dispatches] = posts;
 						<li class="stop-mirkwood">
 							<button class="map-stop" type="button" aria-pressed="false" aria-controls="map-stop-details"
 								data-title="Mirkwood"
+								data-image={locationImages.mirkwood.src}
 								data-description="A shadowed woodland where the path is easy to lose and courage matters.">
 								<span class="map-point" aria-hidden="true"></span><span>Mirkwood</span>
 							</button>
@@ -83,6 +96,7 @@ const [featured, ...dispatches] = posts;
 						<li class="stop-mountain">
 							<button class="map-stop" type="button" aria-pressed="false" aria-controls="map-stop-details"
 								data-title="The Lonely Mountain"
+								data-image={locationImages.mountain.src}
 								data-description="A far-eastern landmark beyond forest and plain, reached only after a long road.">
 								<span class="map-point" aria-hidden="true"></span><span>The Lonely Mountain</span>
 							</button>
@@ -138,21 +152,24 @@ const [featured, ...dispatches] = posts;
 	const routeMap = document.querySelector<HTMLElement>('[data-route-map]');
 	const stopTitle = routeMap?.querySelector<HTMLElement>('.map-stop-title');
 	const stopDescription = routeMap?.querySelector<HTMLElement>('.map-stop-description');
+	const mastheadImage = document.querySelector<HTMLImageElement>('[data-masthead-image]');
 
-	if (routeMap && stopTitle && stopDescription) {
+	if (routeMap && stopTitle && stopDescription && mastheadImage) {
 		const stops = routeMap.querySelectorAll<HTMLButtonElement>('.map-stop');
 
 		stops.forEach((stop) => {
 			stop.addEventListener('click', () => {
 				const title = stop.dataset.title;
 				const description = stop.dataset.description;
-				if (!title || !description) return;
+				const image = stop.dataset.image;
+				if (!title || !description || !image) return;
 
 				stops.forEach((waypoint) => {
 					waypoint.setAttribute('aria-pressed', String(waypoint === stop));
 				});
 				stopTitle.textContent = title;
 				stopDescription.textContent = description;
+				mastheadImage.src = image;
 			});
 		});
 	}
