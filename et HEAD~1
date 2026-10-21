@@ -1,0 +1,447 @@
+[33mcommit f06fe38c814ebf2dc259c7d6b9e421c234936c80[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 21 12:21:48 2026 +0100
+
+    Deploy Astro container to ECS
+    
+    Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+[33mcommit 1d9b5e20dea54767131d14fb831451009dc14276[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 31545ae 35257ff
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Mon Oct 19 16:54:42 2026 +0100
+
+    chore(deps): bump @astrojs/node from 11.1.6 to 11.1.8
+    
+    chore(deps): bump @astrojs/node from 11.1.6 to 11.1.8
+
+[33mcommit 31545aef60af3edd0783a4404367d30e56295632[m
+Merge: 304b8a9 1898643
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Mon Oct 19 16:54:21 2026 +0100
+
+    chore(deps-dev): bump @playwright/test from 1.63.0 to 1.64.1
+    
+    chore(deps-dev): bump @playwright/test from 1.63.0 to 1.64.1
+
+[33mcommit 304b8a9bf2df3d521d74500c7266e326ef82d749[m
+Merge: 85c37dd 35d6292
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Mon Oct 19 16:53:21 2026 +0100
+
+    Merge pull request #65 from maevemm-hoffman/dependabot/npm_and_yarn/typescript-eslint/parser-8.71.1
+    
+    chore(deps-dev): bump @typescript-eslint/parser from 8.71.0 to 8.71.2
+
+[33mcommit 35257ffd97e95cb2b126bfd41900bf6dc3ca3048[m
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Mon Oct 19 15:51:55 2026 +0000
+
+    chore(deps): bump @astrojs/node from 11.1.6 to 11.1.8
+    
+    Bumps [@astrojs/node](https://github.com/withastro/astro/tree/HEAD/packages/integrations/node) from 11.1.6 to 11.1.8.
+    - [Release notes](https://github.com/withastro/astro/releases)
+    - [Changelog](https://github.com/withastro/astro/blob/main/packages/integrations/node/CHANGELOG.md)
+    - [Commits](https://github.com/withastro/astro/commits/@astrojs/node@11.1.8/packages/integrations/node)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: "@astrojs/node"
+      dependency-version: 11.1.7
+      dependency-type: direct:production
+      update-type: version-update:semver-patch
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+
+[33mcommit 85c37ddbda4760537cd86922687d9fea28ab320f[m
+Merge: edf0c4c 4711f24
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Mon Oct 19 16:49:39 2026 +0100
+
+    chore(deps): bump @astrojs/mdx from 8.0.1 to 8.0.3
+    
+    chore(deps): bump @astrojs/mdx from 8.0.1 to 8.0.3
+
+[33mcommit 1898643599df71aadff2ad17ae20bd574f7cac4d[m
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Mon Oct 19 15:48:33 2026 +0000
+
+    chore(deps-dev): bump @playwright/test from 1.63.0 to 1.64.1
+    
+    Bumps [@playwright/test](https://github.com/microsoft/playwright) from 1.63.0 to 1.64.1.
+    - [Release notes](https://github.com/microsoft/playwright/releases)
+    - [Commits](https://github.com/microsoft/playwright/compare/v1.63.0...v1.64.1)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: "@playwright/test"
+      dependency-version: 1.64.0
+      dependency-type: direct:development
+      update-type: version-update:semver-minor
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+
+[33mcommit 35d62925bd0c5dc9e58b5a71734d73efa703d585[m
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Mon Oct 19 15:47:50 2026 +0000
+
+    chore(deps-dev): bump @typescript-eslint/parser from 8.71.0 to 8.71.2
+    
+    Bumps [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint/tree/HEAD/packages/parser) from 8.71.0 to 8.71.2.
+    - [Release notes](https://github.com/typescript-eslint/typescript-eslint/releases)
+    - [Changelog](https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/parser/CHANGELOG.md)
+    - [Commits](https://github.com/typescript-eslint/typescript-eslint/commits/v8.71.2/packages/parser)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: "@typescript-eslint/parser"
+      dependency-version: 8.71.1
+      dependency-type: direct:development
+      update-type: version-update:semver-patch
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+
+[33mcommit edf0c4ceac613082649b185b695333473c578af7[m
+Merge: 1e01eda 72f73b6
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Mon Oct 19 16:45:41 2026 +0100
+
+    chore(deps-dev): bump eslint from 10.11.0 to 10.12.0
+    
+    chore(deps-dev): bump eslint from 10.11.0 to 10.12.0
+
+[33mcommit 4711f24075fc3b74869fdf506a4646e433dcc8e6[m
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Mon Oct 12 09:48:43 2026 +0000
+
+    chore(deps): bump @astrojs/mdx from 8.0.1 to 8.0.3
+    
+    Bumps [@astrojs/mdx](https://github.com/withastro/astro/tree/HEAD/packages/integrations/mdx) from 8.0.1 to 8.0.3.
+    - [Release notes](https://github.com/withastro/astro/releases)
+    - [Changelog](https://github.com/withastro/astro/blob/main/packages/integrations/mdx/CHANGELOG.md)
+    - [Commits](https://github.com/withastro/astro/commits/@astrojs/mdx@8.0.3/packages/integrations/mdx)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: "@astrojs/mdx"
+      dependency-version: 8.0.3
+      dependency-type: direct:production
+      update-type: version-update:semver-patch
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+
+[33mcommit 72f73b6a46ae161957758035ebfd11f903158935[m
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Thu Oct 8 03:44:56 2026 +0000
+
+    chore(deps-dev): bump eslint from 10.11.0 to 10.12.0
+    
+    Bumps [eslint](https://github.com/eslint/eslint) from 10.11.0 to 10.12.0.
+    - [Release notes](https://github.com/eslint/eslint/releases)
+    - [Commits](https://github.com/eslint/eslint/compare/v10.11.0...v10.12.0)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: eslint
+      dependency-version: 10.12.0
+      dependency-type: direct:development
+      update-type: version-update:semver-minor
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+
+[33mcommit 1e01eda613fe9136dbcc07aa66029fbfbdc21b3c[m
+Merge: 153d109 d3a9322
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 16:53:06 2026 +0100
+
+    feat: add Spotify API integration
+    
+    feat: add Spotify API integration
+
+[33mcommit d3a93221d288ef3cd243131dd1174d85d2568ddb[m[33m ([m[1;31morigin/feature/spotify-api-integration[m[33m, [m[1;32mfeature/spotify-api-integration[m[33m)[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 16:49:52 2026 +0100
+
+    feat: add Spotify API integration
+
+[33mcommit 153d109b08ed291524ac5836a38f6810d60520f8[m
+Merge: 7c082fc f4248ed
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 15:50:03 2026 +0100
+
+    feat: add alt text to images for accessibility
+    
+    feat: add alt text to images for accessibility
+
+[33mcommit f4248ed34d1870bf40054601f3647916f5bc10f8[m[33m ([m[1;31morigin/feature/add-image-alt-text[m[33m, [m[1;32mfeature/add-image-alt-text[m[33m)[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 15:45:55 2026 +0100
+
+    feat: add alt text to images for accessibility
+
+[33mcommit 7c082fcc574af6f09da22fc190fb7f728513b6aa[m
+Merge: 902fe92 5053971
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 15:34:23 2026 +0100
+
+    feat: support changing index map background
+    
+    feat: support changing index map background
+
+[33mcommit 505397199bc7d33848edfabe438f41d8d75cff01[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 15:29:56 2026 +0100
+
+    feat: support changing index map background
+
+[33mcommit 902fe92e70c51db016f9523ad46bafddf5c4e2a7[m
+Merge: 3535627 063b51e
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 14:53:51 2026 +0100
+
+    feat: update site favicon
+    
+    feat: update site favicon
+
+[33mcommit 063b51eadaffe733c9324c717a724384b0abf0a9[m[33m ([m[1;31morigin/feature/update-favicon[m[33m)[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 14:51:24 2026 +0100
+
+    feat: update site favicon
+
+[33mcommit 35356275bf477f12996f8c98840fffce634dce1d[m
+Merge: b742e2b 7aa6a35
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 14:02:45 2026 +0100
+
+    feat: build and publish Astro SSR Docker image to ECR
+    
+    feat: build and publish Astro SSR Docker image to ECR
+
+[33mcommit 7aa6a359910ab907ca8e783f504eb1b43ec40795[m[33m ([m[1;31morigin/fix/health-check-endpoint[m[33m)[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 13:59:54 2026 +0100
+
+    feat: build and publish Astro SSR Docker image to ECR
+
+[33mcommit b742e2bc8a74f00d619172c479175f329b3dc961[m
+Merge: 3d83cff 97edbdc
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 11:32:27 2026 +0100
+
+    feat: add health check endpoint and structured logging
+    
+    feat: add health check endpoint and structured logging
+
+[33mcommit 97edbdcaaf9a4219b3daeba6600cc4338310770d[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 11:27:10 2026 +0100
+
+    feat: add health check endpoint and structured logging
+
+[33mcommit 3d83cff047248850b19d60d06313b6eaba9814b2[m
+Merge: a31bf81 db51262
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 11:12:32 2026 +0100
+
+    Merge pull request #53 from maevemm-hoffman/fix/cdk-app-configuration
+    
+    fix: configure CDK app for deployment workflow
+
+[33mcommit db51262cadcea928a3c16b5330bd3c45f56025fc[m[33m ([m[1;31morigin/fix/cdk-app-configuration[m[33m)[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 11:10:05 2026 +0100
+
+    fix: configure CDK app for deployment workflow
+
+[33mcommit a31bf8146cfc133ca73ab3dc033dad357f896abe[m
+Merge: a700434 942384c
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 11:04:44 2026 +0100
+
+    feat: migrate Astro app to SSR with health checks and logging
+    
+    feat: migrate Astro app to SSR with health checks and logging
+
+[33mcommit 942384cf06d84b5acdd16f8a1d39ea582c695c73[m[33m ([m[1;31morigin/feat/ssr-container-transition[m[33m)[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 11:01:12 2026 +0100
+
+    feat: migrate Astro app to SSR with health checks and logging
+
+[33mcommit a700434e0c04255eff56f33fd2500e8480619086[m
+Merge: e25e30a 731e71b
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 10:51:53 2026 +0100
+
+    fix(ci): update AWS authentication setup
+    
+    fix(ci): update AWS authentication setup
+
+[33mcommit 731e71bc60e8622ca7ebba612ed955703b114e55[m[33m ([m[1;31morigin/fix/aws-credentials[m[33m)[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 10:48:26 2026 +0100
+
+    fix(ci): update AWS authentication setup
+
+[33mcommit e25e30afa88c7270be9160c43820ec12a31d56b3[m
+Merge: 8a81487 fdaf6ed
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 10:43:09 2026 +0100
+
+    Revert "fix(ci): troubleshoot AWS credentials configuration"
+    
+    Revert "fix(ci): troubleshoot AWS credentials configuration"
+
+[33mcommit fdaf6ed069c6bafb95b0bd638761fa6dffbe2168[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 10:39:49 2026 +0100
+
+    Revert "fix(ci): troubleshoot AWS credentials configuration"
+
+[33mcommit 8a8148792873b29249c1ea77c6cc2acd463603cf[m
+Merge: ad51476 240f69e
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 10:35:35 2026 +0100
+
+    fix(ci): troubleshoot AWS credentials configuration
+    
+    fix(ci): troubleshoot AWS credentials configuration
+
+[33mcommit 240f69ede224ef09c739a62b215d55f21cfc4775[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 10:31:56 2026 +0100
+
+    fix(ci): troubleshoot AWS credentials configuration
+
+[33mcommit ad5147657bd215e89ffbbb56f6a04f1e8c9caef7[m
+Merge: a57526a 43aca12
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 09:36:38 2026 +0100
+
+    chore(ci): update AWS credentials action for Node.js 24 compatibility
+    
+    chore(ci): update AWS credentials action for Node.js 24 compatibility
+
+[33mcommit 43aca1277b0ae2d1991b812e3272e58d06aa4da1[m[33m ([m[1;31morigin/fix/node20-deprecation[m[33m)[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 09:32:35 2026 +0100
+
+    chore(ci): update AWS credentials action for Node.js 24 compatibility
+
+[33mcommit a57526abd6216a916f2c83352b20d3f815c350e8[m
+Merge: 2c2fc4c 364b342
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 09:26:24 2026 +0100
+
+    chore(deps): bump the npm_and_yarn group across 1 directory with 2 updates
+    
+    chore(deps): bump the npm_and_yarn group across 1 directory with 2 updates
+
+[33mcommit 364b3429d44c708ce132798595d4157f8c1dd560[m
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Wed Oct 7 08:24:15 2026 +0000
+
+    chore(deps): bump the npm_and_yarn group across 1 directory with 2 updates
+    
+    Bumps the npm_and_yarn group with 2 updates in the / directory: [smol-toml](https://github.com/squirrelchat/smol-toml) and [source-map-js](https://github.com/7rulnik/source-map-js).
+    
+    
+    Updates `smol-toml` from 1.8.0 to 1.9.0
+    - [Release notes](https://github.com/squirrelchat/smol-toml/releases)
+    - [Commits](https://github.com/squirrelchat/smol-toml/compare/v1.8.0...v1.9.0)
+    
+    Updates `source-map-js` from 1.2.1 to 1.2.2
+    - [Release notes](https://github.com/7rulnik/source-map-js/releases)
+    - [Changelog](https://github.com/7rulnik/source-map-js/blob/main/CHANGELOG.md)
+    - [Commits](https://github.com/7rulnik/source-map-js/compare/v1.2.1...v1.2.2)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: smol-toml
+      dependency-version: 1.9.0
+      dependency-type: indirect
+      dependency-group: npm_and_yarn
+    - dependency-name: source-map-js
+      dependency-version: 1.2.2
+      dependency-type: indirect
+      dependency-group: npm_and_yarn
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+
+[33mcommit 2c2fc4c9d7e8fa2d47d49e0f80e05043cfb12300[m
+Merge: 1bc12b1 3eb285e
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 09:23:01 2026 +0100
+
+    fix(ci): replace npm.cmd with npm ci
+    
+    fix(ci): replace npm.cmd with npm ci
+
+[33mcommit 3eb285e7d18426f69cda5717e11ad49749e3a9c5[m[33m ([m[1;31morigin/fix-ci-workflow[m[33m)[m
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 09:19:36 2026 +0100
+
+    fix(ci): replace npm.cmd with npm ci
+
+[33mcommit 1bc12b11c6dda7d7482bf227fe709421148e408d[m
+Merge: 6dd678d 756a63f
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 09:05:36 2026 +0100
+
+    Merge pull request #41 from maevemm-hoffman/dependabot/npm_and_yarn/npm_and_yarn-3019feb14a
+    
+    chore(deps): bump the npm_and_yarn group across 1 directory with 2 updates
+
+[33mcommit 6dd678d28df3ebc4a496c4449be6d399ea0c5a0b[m
+Merge: ab9954f 064edf9
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 09:05:02 2026 +0100
+
+    Merge pull request #34 from maevemm-hoffman/dependabot/npm_and_yarn/vitest-5.0.3
+    
+    chore(deps-dev): bump vitest from 5.0.2 to 5.0.3
+
+[33mcommit ab9954f02d076f1832017ff610843ab064ac7fc3[m
+Merge: 03e46eb 8ee1c70
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 09:04:07 2026 +0100
+
+    Merge pull request #32 from maevemm-hoffman/dependabot/npm_and_yarn/typescript-eslint/parser-8.71.0
+    
+    chore(deps-dev): bump @typescript-eslint/parser from 8.70.0 to 8.71.0
+
+[33mcommit 03e46eb809bcce1bf8aabb83b6bb36c2e75136b8[m
+Merge: 69019fa a4e568d
+Author: maevemm-hoffman <maevehoffman07@gmail.com>
+Date:   Wed Oct 7 09:03:43 2026 +0100
+
+    Merge pull request #31 from maevemm-hoffman/dependabot/npm_and_yarn/sharp-0.35.5
+    
+    chore(deps): bump sharp from 0.35.4 to 0.35.5
+
+[33mcommit a4e568dc1b1651f15fcb1a6cf61a6b4d1f04bb13[m
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Mon Oct 5 18:13:50 2026 +0000
+
+    chore(deps): bump sharp from 0.35.4 to 0.35.5
+    
+    Bumps [sharp](https://github.com/lovell/sharp) from 0.35.4 to 0.35.5.
+    - [Release notes](https://github.com/lovell/sharp/releases)
+    - [Commits](https://github.com/lovell/sharp/compare/v0.35.4...v0.35.5)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: sharp
+      dependency-version: 0.35.5
+      dependency-type: direct:production
+      update-type: version-update:semver-patch
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
