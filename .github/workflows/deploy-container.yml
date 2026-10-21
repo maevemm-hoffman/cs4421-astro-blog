@@ -59,4 +59,52 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-  
+          IMAGE_URI="$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+          aws ecs describe-task-definition \
+            --task-definition infinite-app \
+            --query taskDefinition \
+            --output json > task-definition.json
+
+          jq --arg image "$IMAGE_URI" '
+            if ([.containerDefinitions[] | select(.name == "Main")] | length) != 1 then
+              error("Expected exactly one Main container in the task definition")
+            else
+              with_entries(select(.key | IN(
+                "family",
+                "taskRoleArn",
+                "executionRoleArn",
+                "networkMode",
+                "containerDefinitions",
+                "volumes",
+                "placementConstraints",
+                "requiresCompatibilities",
+                "cpu",
+                "memory",
+                "ephemeralStorage",
+                "runtimePlatform",
+                "proxyConfiguration",
+                "pidMode",
+                "ipcMode",
+                "inferenceAccelerators",
+                "enableFaultInjection"
+              )))
+              | .containerDefinitions |= map(
+                if .name == "Main" then .image = $image else . end
+              )
+            end
+          ' task-definition.json > rendered-task-definition.json
+
+          TASK_DEFINITION_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://rendered-task-definition.json \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+
+          aws ecs update-service \
+            --cluster "$ECS_CLUSTER" \
+            --service "$ECS_SERVICE" \
+            --task-definition "$TASK_DEFINITION_ARN"
+
+          aws ecs wait services-stable \
+            --cluster "$ECS_CLUSTER" \
+            --services "$ECS_SERVICE"
