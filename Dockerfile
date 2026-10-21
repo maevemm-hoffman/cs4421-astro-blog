@@ -23,7 +23,7 @@ FROM node:24-alpine AS runtime
 
 ENV NODE_ENV=production \
     HOST=0.0.0.0 \
-    PORT=80
+  PORT=4321
 
 WORKDIR /app
 
@@ -34,7 +34,7 @@ COPY --from=build --chown=node:node /app/dist ./dist
 
 USER node
 
-EXPOSE 80
+EXPOSE 4321
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD wget -qO- http://127.0.0.1:80/api/health/ || exit 1
