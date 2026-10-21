@@ -25,13 +25,20 @@ The current local build and server entry point are `npm run build` and
   runtime.
 - The service needs a container runtime and health-check configuration; it can
   no longer be deployed by uploading `dist` as static assets.
+- The existing ECS service and ECR repository are the deployment targets.
+  GitHub Actions runs unit tests, builds and pushes an image tagged with the
+  commit SHA, configures the load balancer health check at `/api/health`, and
+  rolls out the new task definition using ECS rolling deployment settings.
+- The ECS cluster, service, load balancer, and ECR repository are managed
+  outside this repository. GitHub Actions requires the `AWS_ACCESS_KEY_ID` and
+  `AWS_SECRET_ACCESS_KEY` repository secrets with permission to push to ECR
+  and update the ECS service and its target groups.
 - Logs are emitted to standard output as JSON, allowing a container platform
   to collect and query request metadata.
-- The existing CDK stack and GitHub Actions workflow still deploy to S3 and
-  CloudFront. They must be migrated to build and deploy the container before
-  this SSR architecture is used in production.
-- A deployment platform, scaling policy, and log-retention policy remain to be
-  selected as part of that migration.
+- The existing S3 and CloudFront CDK stack remains in the repository but is no
+  longer deployed by the main-branch workflow.
+- The ECS service's desired capacity, scaling policy, and log-retention policy
+  remain managed outside this repository.
 
 ## Alternatives Considered
 
