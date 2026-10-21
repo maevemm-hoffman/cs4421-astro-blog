@@ -1,0 +1,151 @@
+name: Deploy Container to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: astro-blog
+  ECS_CLUSTER: trusting-rabbit-gej1ql
+  ECS_SERVICE: astro-blog-3d33
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: npm
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24.10.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run test:unit
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
+          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Deploy to Amazon ECS
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          SERVICE_JSON="$(aws ecs describe-services \
+            --cluster "$ECS_CLUSTER" \
+            --services "$ECS_SERVICE" \
+            --output json)"
+          TASK_DEFINITION_ARN="$(jq -r '.services[0].taskDefinition // empty' <<< "$SERVICE_JSON")"
+          DESIRED_COUNT="$(jq -r '.services[0].desiredCount // 0' <<< "$SERVICE_JSON")"
+          if [[ -z "$TASK_DEFINITION_ARN" || "$DESIRED_COUNT" -lt 1 ]]; then
+            echo "ECS service '$ECS_SERVICE' was not found or has no running desired tasks." >&2
+            exit 1
+          fi
+
+          aws ecs describe-task-definition \
+            --task-definition "$TASK_DEFINITION_ARN" \
+            --query taskDefinition \
+            --output json |
+            jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy, .deregisteredAt)' \
+              > task-definition.json
+
+          CONTAINER_NAME="$(jq -r --arg repository "$ECR_REPOSITORY" \
+            '[.containerDefinitions[] | select(.image | contains($repository)) | .name] |
+            if length == 1 then .[0] else empty end' task-definition.json)"
+          if [[ -z "$CONTAINER_NAME" ]]; then
+            echo "Could not identify exactly one task container using ECR repository '$ECR_REPOSITORY'." >&2
+            exit 1
+          fi
+
+          TARGET_GROUP_ARNS="$(jq -r '.services[0].loadBalancers[]?.targetGroupArn // empty' <<< "$SERVICE_JSON")"
+          if [[ -z "$TARGET_GROUP_ARNS" ]]; then
+            echo "ECS service '$ECS_SERVICE' has no load balancer target group." >&2
+            exit 1
+          fi
+
+          while IFS= read -r TARGET_GROUP_ARN; do
+            [[ -z "$TARGET_GROUP_ARN" ]] && continue
+            aws elbv2 modify-target-group \
+              --target-group-arn "$TARGET_GROUP_ARN" \
+              --health-check-protocol HTTP \
+              --health-check-port traffic-port \
+              --health-check-path /api/health \
+              --health-check-interval-seconds 30 \
+              --health-check-timeout-seconds 5 \
+              --healthy-threshold-count 2 \
+              --unhealthy-threshold-count 3 \
+              --matcher HttpCode=200 \
+              > /dev/null
+          done <<< "$TARGET_GROUP_ARNS"
+
+          IMAGE_URI="$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          jq --arg container "$CONTAINER_NAME" --arg image "$IMAGE_URI" '
+            (.containerDefinitions[] | select(.name == $container) | .image) = $image |
+            (.containerDefinitions[] | select(.name == $container) | .portMappings) |=
+              (if length == 0 then
+                [{"containerPort": 80, "hostPort": 80, "protocol": "tcp"}]
+              else
+                .[0].containerPort = 80 |
+                .[0].hostPort = 80
+              end)
+          ' task-definition.json > updated-task-definition.json
+
+          NEW_TASK_DEFINITION_ARN="$(aws ecs register-task-definition \
+            --cli-input-json file://updated-task-definition.json \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)"
+
+          LOAD_BALANCERS="$(jq -c '[.services[0].loadBalancers[] | .containerPort = 80]' <<< "$SERVICE_JSON")"
+          aws ecs update-service \
+            --cluster "$ECS_CLUSTER" \
+            --service "$ECS_SERVICE" \
+            --task-definition "$NEW_TASK_DEFINITION_ARN" \
+            --load-balancers "$LOAD_BALANCERS" \
+            --deployment-configuration '{"minimumHealthyPercent":100,"maximumPercent":200,"deploymentCircuitBreaker":{"enable":true,"rollback":true}}' \
+            --health-check-grace-period-seconds 60 \
+            > /dev/null
+
+          aws ecs wait services-stable \
+            --cluster "$ECS_CLUSTER" \
+            --services "$ECS_SERVICE"
+
+          DEPLOYED_TASK_DEFINITION_ARN="$(aws ecs describe-services \
+            --cluster "$ECS_CLUSTER" \
+            --services "$ECS_SERVICE" \
+            --query 'services[0].taskDefinition' \
+            --output text)"
+          if [[ "$DEPLOYED_TASK_DEFINITION_ARN" != "$NEW_TASK_DEFINITION_ARN" ]]; then
+            echo "ECS service did not stabilize on the new task definition; deployment may have rolled back." >&2
+            exit 1
+          fi
