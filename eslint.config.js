@@ -6,6 +6,7 @@ export default [
       ".astro/**",
       "dist/**",
       "node_modules/**",
+      "dist-static/**"
     ],
   },
 

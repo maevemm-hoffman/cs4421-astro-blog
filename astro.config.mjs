@@ -6,6 +6,8 @@ import { defineConfig, fontProviders } from 'astro/config';
 
 import node from '@astrojs/node';
 
+const isStatic = process.env.DEPLOY_TARGET === 'static';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://example.com',
@@ -35,10 +37,9 @@ export default defineConfig({
               ],
           },
       },
-	],
+  ],
 
-    output: 'server',
-  adapter: node({
-    mode: 'standalone',
-  }),
+  output: isStatic ? 'static' : 'server',
+  adapter: isStatic ? undefined : node({ mode: 'standalone' }),
+  outDir: isStatic ? './dist-static' : './dist',
 });

@@ -54,8 +54,11 @@ export class StaticSiteStack extends cdk.Stack {
     });
 
 
-    sources: [
-      s3deploy.Source.asset(path.join(__dirname, '..', 'dist'))
-    ]
+    new s3deploy.BucketDeployment(this, 'DeploySite', {
+      sources: [s3deploy.Source.asset(path.join(__dirname, '..', '..', 'dist-static'))],
+      destinationBucket: siteBucket,
+      distribution,
+      distributionPaths: ['/*'],
+    });
   }
 }

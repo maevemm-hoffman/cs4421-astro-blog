@@ -1,7 +1,7 @@
 {
   "extends": "astro/tsconfigs/strict",
   "include": [".astro/types.d.ts", "src/**/*"],
-  "exclude": ["dist", "cdk", "node_modules", "tests", "playwright-report", "test-results"],
+  "exclude": ["dist", "cdk", "node_modules", "tests", "playwright-report", "test-results", "dist-static"],
   "compilerOptions": {
     "strictNullChecks": true
   }
