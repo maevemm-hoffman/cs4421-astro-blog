@@ -73,8 +73,24 @@ jobs:
                 logGroup: "/ecs/infinite-app",
                 logStreamPrefix: "ecs"
               }
-            }')"
+            }')" > /dev/null
 
-          aws ecs wait services-stable \
-            --cluster "$ECS_CLUSTER" \
-            --services "$ECS_SERVICE"
+          sleep 15
+          DEPLOYMENT="$(aws ecs describe-express-gateway-service \
+            --service-arn "$EXPRESS_SERVICE_ARN" \
+            --query 'service.currentDeployment' --output text)"
+
+          for i in $(seq 1 45); do
+            STATUS="$(aws ecs describe-service-deployments \
+              --service-deployment-arns "$DEPLOYMENT" \
+              --query 'serviceDeployments[0].status' --output text)"
+            echo "Deployment status: $STATUS"
+            case "$STATUS" in
+              SUCCESSFUL) exit 0 ;;
+              ROLLBACK*|STOPPED) echo "Deployment failed: $STATUS" >&2; exit 1 ;;
+            esac
+            sleep 20
+          done
+
+          echo "Timed out after 15 minutes." >&2
+          exit 1
