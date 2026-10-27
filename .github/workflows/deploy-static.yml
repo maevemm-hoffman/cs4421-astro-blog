@@ -22,9 +22,11 @@ jobs:
 
       - name: Install Project & CDK Dependencies
         run: npm ci
-
+        
       - name: Build Astro Static Site
-        run: npm run build:static
+        run: npm run build
+        env:
+          DEPLOY_TARGET: static
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
