@@ -19,15 +19,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: 'npm'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            cdk/package-lock.json
 
-      - name: Install Project & CDK Dependencies
+      - name: Install site dependencies
         run: npm ci
-        
+
       - name: Build Astro Static Site
         run: npm run build
         env:
           DEPLOY_TARGET: static
+
+      - name: Install CDK dependencies
+        working-directory: cdk
+        run: npm ci
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -36,5 +43,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Deploy Infrastructure & Assets with AWS CDK
+      - name: Deploy with AWS CDK
+        working-directory: cdk
         run: npx cdk deploy --require-approval never
